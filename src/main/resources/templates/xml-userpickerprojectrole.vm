@@ -1,0 +1,3 @@
+#if ($!value)
+    <customfieldvalue><![CDATA[$!value.getName()]]></customfieldvalue>
+#end

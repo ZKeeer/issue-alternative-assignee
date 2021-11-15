@@ -1,0 +1,28 @@
+<!--
+    $!configs.get("jupconfig").get("role"))
+-->
+#controlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters.noHeader)
+#set ($projectRole = $!configs.get("jupconfig").get("role"))
+#if ($projectRole)
+    #set ($userListForRole = $customFieldObject.getUserListForRole($issueObject,$projectRole.toString()))
+
+    <select class="select cf-select" name="$customField.id" id="$customField.id">
+        #if (!$fieldLayoutItem || $fieldLayoutItem.required == false)
+            <option value="-1">$i18n.getText("common.words.none")</option>
+        #else
+            <option value="">$i18n.getText("common.words.none")</option>
+        #end
+        #foreach ($user in $userListForRole)
+            <option value="$textutils.htmlEncode($!user.getName())"
+                #if ($!value.equals($!user.getName()))
+                    selected="selected"
+                #end
+                    >$!user.getDisplayName()</option>
+        #end
+    </select>
+#else
+    <span class="smallgrey">Field has not been configured yet.</span>
+#end
+
+
+#controlFooter ($action $fieldLayoutItem.fieldDescription $displayParameters.noHeader)

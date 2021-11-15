@@ -1,0 +1,1 @@
+Issue will be assigned to the value of <b>${descriptor.getText($fieldId)}</b> Customfield.

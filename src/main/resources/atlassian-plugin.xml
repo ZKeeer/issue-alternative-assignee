@@ -1,0 +1,85 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+        <param name="build">7</param>
+        <param name="atlassian-data-center-compatible">true</param>
+    </plugin-info>
+
+    <customfield-type key="userselectbox-customfield"
+                      name="User picker from project role"
+                      class="com.iamhuy.jira.plugin.customfields.UserPickerProjectRole">
+        <description>Allow choosing a user from a given project role</description>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-user.vm"/>
+        <resource type="velocity" name="edit" location="templates/edit-userpickerprojectrole.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/view-user.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-user.vm"/>
+    </customfield-type>
+
+    <customfield-searcher key="userpickerprojectrolesearcher" name="User Picker (Pop-up window)"
+                          class="com.atlassian.jira.issue.customfields.searchers.UserPickerSearcher">
+        <description>Allow to search for a user using a userpicker.</description>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-user.vm"/>
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-userpicker.vm"/>
+        <resource type="velocity" name="view"
+                  location="templates/plugins/fields/view-searcher/view-searcher-basictext.vm"/>
+        <valid-customfield-type package="com.iamhuy.jira.plugin.issue-alternative-assignee"
+                                key="userselectbox-customfield"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="userpickerprojectrolesearcher1" name="Search using simple text field"
+                          class="com.atlassian.jira.issue.customfields.searchers.UserPickerSearcher">
+        <description>Search using simple text field</description>
+
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-user.vm"/>
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-basictext.vm"/>
+        <resource type="velocity" name="view"
+                  location="templates/plugins/fields/view-searcher/view-searcher-basictext.vm"/>
+        <valid-customfield-type package="com.iamhuy.jira.plugin.issue-alternative-assignee"
+                                key="userselectbox-customfield"/>
+    </customfield-searcher>
+
+    <workflow-function key="assign-from-customfield-function"
+                       name="Get Assignee From Custom Field"
+                       class="com.iamhuy.jira.plugin.workflow.ChooseCustomfieldPluginFactory">
+        <description>
+            Issue is assigned to value of chosen Custom Field
+        </description>
+        <function-class>
+            com.iamhuy.jira.plugin.workflow.AssignFromCustomfieldFunction
+        </function-class>
+        <orderable>true</orderable>
+        <unique>false</unique>
+        <deletable>true</deletable>
+        <editable>true</editable>
+        <resource type="velocity" name="view" location="templates/view-assign-from-customfield-function.vm"/>
+        <resource type="velocity" name="input-parameters"
+                  location="templates/inp-params-assign-from-customfield-function.vm"/>
+        <resource type="velocity" name="input-edit"
+                  location="templates/inp-params-assign-from-customfield-function.vm"/>
+    </workflow-function>
+
+    <webwork1 key="roleconfigaction"
+              name="Edit Role configuration action"
+              class="java.lang.Object">
+        <description>
+            The action for editing a role configuration.
+        </description>
+
+        <actions>
+            <action name="com.iamhuy.jira.plugin.customfields.EditConfiguration"
+                    alias="EditRoleConfig">
+                <view name="input">/templates/edit-config.vm</view>
+                <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            </action>
+        </actions>
+    </webwork1>
+
+
+    <component key="pluginUpgradeTask" name="Plugin Upgrade Task"
+               class="com.iamhuy.jira.plugin.customfields.CustomFieldUpgradeTask" public="true">
+        <interface>com.atlassian.sal.api.upgrade.PluginUpgradeTask</interface>
+    </component>
+
+</atlassian-plugin>

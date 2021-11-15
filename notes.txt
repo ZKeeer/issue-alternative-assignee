@@ -1,0 +1,10 @@
+delete unused templates
+
+works with 6.1.
+
+Does not work with 6.2-rc1.
+
+You should consider migrating away from this plugin to use "user picker filtering" in JIRA 6.2:
+ https://confluence.atlassian.com/display/JIRA/JIRA+6.2+RC+1+Release+Notes#JIRA6.2RC1ReleaseNotes-FilteringforUserPickercustomfield
+
+

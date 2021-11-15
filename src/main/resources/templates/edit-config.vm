@@ -1,0 +1,66 @@
+#* @vtlvariable name="action" type="com.iamhuy.jira.plugin.customfields.EditConfiguration" *#
+
+<html>
+<head>
+    <title>
+        $i18n.getText('common.words.configure') $action.getCustomField().getName()
+    </title>
+    <meta name="decorator" content="atl.admin">
+</head>
+<body>
+
+<h2 class="formtitle">
+    $i18n.getText('common.words.configure') $action.getCustomField().getName()
+</h2>
+
+<p>
+    Select a role for the field to select users from.
+</p>
+
+<form action="EditRoleConfig.jspa" method="post">
+
+    <table>
+        <tr>
+            <td>
+                Role:&nbsp;
+            </td>
+
+            <td>
+                <select id="role" name="role">
+                    #foreach ($thisRole in $action.getRoles())
+                        <option value="$thisRole"
+                            #if ($action.getRole() == $thisRole) selected #end
+                                >
+                            $thisRole
+                        </option>
+                    #end
+                </select>
+            </td>
+
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <input type="submit"
+                       name="Save"
+                       id="Save"
+                       value="$i18n.getText('common.words.save')"
+                       accesskey="S"
+                       title="Press Ctrl+S to submit form"
+                       class="spaced"
+                        />
+
+                <a href="$action.getReturnUrlForCancelLink()">Cancel</a>
+            </td>
+        </tr>
+
+    </table>
+
+## Used by the parent class AbstractEditConfigurationItemAction
+    <input type="hidden" name="fieldConfigId" value="$fieldConfigId">
+
+</form>
+
+</body>
+</html>
